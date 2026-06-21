@@ -1,0 +1,25 @@
+# dependencies
+node_modules
+
+# environment variables
+.env
+.env.local
+
+# build output
+dist
+dist-ssr
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# logs
+*.log
+npm-debug.log*
