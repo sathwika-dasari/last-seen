@@ -2,7 +2,7 @@ export async function triggerAlert(caseId, pin, photoURL, radiusKm = 3) {
   const alertURL = `${window.location.origin}/alert/${caseId}`;
 
   try {
-    const response = await fetch("http://localhost:3001/send-sms", {
+    const response = await fetch("https://last-seen-server.onrender.com/send-sms", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
