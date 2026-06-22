@@ -94,11 +94,10 @@ function FamilyDashboard() {
       if (result && result.success) {
         setRadius(newRadiusMeters);
 setAlertedCount(result.alertedCount);
-setCaseData((prev) => ({ ...prev, status: "active" }));
 
-        await supabase
+       await supabase
   .from("cases")
-  .update({ radius: newRadiusMeters, alerted_count: result.alertedCount, status: "active" })
+  .update({ radius: newRadiusMeters, alerted_count: result.alertedCount })
   .eq("id", caseId);
       } else {
         alert("Could not expand search — check that the backend server is running.");
