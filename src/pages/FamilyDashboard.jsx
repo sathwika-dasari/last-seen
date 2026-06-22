@@ -56,7 +56,7 @@ function FamilyDashboard() {
 
   useEffect(() => {
     const channel = supabase
-      .channel(`tips-${caseId}`)
+      .channel(`realtime-${caseId}`)
       .on(
         "postgres_changes",
         {
@@ -67,6 +67,20 @@ function FamilyDashboard() {
         },
         (payload) => {
           setTips((prev) => [payload.new, ...prev]);
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "cases",
+          filter: `id=eq.${caseId}`,
+        },
+        (payload) => {
+          setCaseData(payload.new);
+          setRadius(payload.new.radius || 3000);
+          setAlertedCount(payload.new.alerted_count || 0);
         }
       )
       .subscribe();
@@ -93,12 +107,12 @@ function FamilyDashboard() {
 
       if (result && result.success) {
         setRadius(newRadiusMeters);
-setAlertedCount(result.alertedCount);
+        setAlertedCount(result.alertedCount);
 
-       await supabase
-  .from("cases")
-  .update({ radius: newRadiusMeters, alerted_count: result.alertedCount })
-  .eq("id", caseId);
+        await supabase
+          .from("cases")
+          .update({ radius: newRadiusMeters, alerted_count: result.alertedCount })
+          .eq("id", caseId);
       } else {
         alert("Could not expand search — check that the backend server is running.");
       }
